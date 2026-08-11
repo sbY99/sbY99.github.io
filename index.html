@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seungbin Yang</title>
+<meta name="description" content="Seungbin Yang, AI researcher at KAIST working on LLM personalization, agent memory, and retrieval.">
+<style>
+  /* ---------- tokens ---------- */
+  :root {
+    --bg: #fdfdfb;
+    --ink: #21252a;
+    --muted: #6a7178;
+    --faint: #8b9198;
+    --accent: #2b5c8a;
+    --accent-ink: #24507a;
+    --wash: #eef3f8;
+    --rule: #e4e6e3;
+    --badge-ink: #24507a;
+    --badge-bg: #e8eff6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #16181c;
+      --ink: #e2e5e9;
+      --muted: #9aa1a9;
+      --faint: #7d848c;
+      --accent: #82b1d8;
+      --accent-ink: #9cc3e4;
+      --wash: #1e242c;
+      --rule: #2a2e34;
+      --badge-ink: #a5c8e6;
+      --badge-bg: #21303f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #16181c;
+    --ink: #e2e5e9;
+    --muted: #9aa1a9;
+    --faint: #7d848c;
+    --accent: #82b1d8;
+    --accent-ink: #9cc3e4;
+    --wash: #1e242c;
+    --rule: #2a2e34;
+    --badge-ink: #a5c8e6;
+    --badge-bg: #21303f;
+  }
+
+  /* ---------- base ---------- */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    padding: 3.5rem 1.25rem 2rem;
+  }
+  .page { max-width: 44rem; margin: 0 auto; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+  h1, h2, .serif {
+    font-family: Charter, "Bitstream Charter", Cambria, Georgia, serif;
+    text-wrap: balance;
+  }
+
+  /* ---------- header ---------- */
+  header { display: flex; gap: 2.2rem; align-items: flex-start; }
+  .intro { flex: 1 1 24rem; }
+  h1 { font-size: 2.15rem; font-weight: 700; letter-spacing: -0.01em; }
+  .role { color: var(--muted); margin-top: .3rem; font-size: 1.02rem; }
+  .role b { color: var(--ink); font-weight: 600; }
+  .bio { margin-top: 1.05rem; display: grid; gap: .7rem; max-width: 62ch; }
+  .bio strong { font-weight: 600; }
+  .portrait { flex: 0 0 auto; }
+  .portrait img {
+    width: 138px; height: 138px; border-radius: 50%;
+    object-fit: cover; display: block;
+    border: 1px solid var(--rule);
+  }
+  .links {
+    margin-top: 1.2rem;
+    display: flex; flex-wrap: wrap; gap: 1.05rem; align-items: center;
+  }
+  .links a { color: var(--muted); display: inline-flex; padding: .15rem; border-radius: 6px; }
+  .links a:hover { color: var(--accent); text-decoration: none; }
+  .links svg { width: 21px; height: 21px; display: block; }
+
+  /* ---------- sections ---------- */
+  section { margin-top: 2.6rem; }
+  h2 {
+    font-size: 1.3rem; font-weight: 700;
+    padding-bottom: .45rem; border-bottom: 1px solid var(--rule);
+  }
+  .sectionnote { color: var(--faint); font-size: .82rem; margin-top: .4rem; }
+
+  /* news */
+  .news { margin-top: 1rem; display: grid; grid-template-columns: 6.2rem 1fr; row-gap: .55rem; column-gap: 1rem; }
+  .news time { color: var(--faint); font-size: .88rem; font-variant-numeric: tabular-nums; padding-top: .1rem; }
+
+  /* publications */
+  .year {
+    margin: 1.35rem 0 .2rem;
+    color: var(--faint); font-size: .8rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .12em;
+  }
+  .pub { padding: .72rem 0; }
+  .pub + .pub { border-top: 1px solid var(--rule); }
+  .pub .title { font-family: Charter, "Bitstream Charter", Cambria, Georgia, serif; font-size: 1.04rem; font-weight: 700; line-height: 1.4; }
+  .pub .title a { color: var(--ink); }
+  .pub .title a:hover { color: var(--accent); }
+  .pub .authors { margin-top: .18rem; font-size: .92rem; color: var(--muted); }
+  .pub .authors .me { color: var(--ink); font-weight: 600; }
+  .pub .meta { margin-top: .28rem; font-size: .85rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; }
+  .venue {
+    color: var(--badge-ink); background: var(--badge-bg);
+    border-radius: 4px; padding: .08rem .5rem; font-weight: 600; font-size: .8rem;
+  }
+  .meta a { font-size: .85rem; }
+
+  /* experience / education / mentoring */
+  .entry { display: flex; gap: 1rem; justify-content: space-between; align-items: baseline; margin-top: 1rem; }
+  .entry .what { max-width: 34rem; }
+  .entry .what b { font-weight: 600; }
+  .entry .sub { color: var(--muted); font-size: .92rem; margin-top: .1rem; }
+  .entry time { color: var(--faint); font-size: .88rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+  footer {
+    margin-top: 3.2rem; padding-top: 1rem; border-top: 1px solid var(--rule);
+    color: var(--faint); font-size: .82rem;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem;
+  }
+
+  @media (max-width: 620px) {
+    body { padding-top: 2.2rem; }
+    header { flex-direction: column-reverse; gap: 1.4rem; }
+    .portrait img { width: 112px; height: 112px; }
+    .news { grid-template-columns: 5.4rem 1fr; }
+    .entry { flex-direction: column; gap: .1rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="intro">
+      <h1>Seungbin Yang</h1>
+      <p class="role">Ph.D. student · <b>Graduate School of AI, KAIST</b></p>
+      <div class="bio">
+        <p>I am an Integrated M.S.–Ph.D. student at <a href="https://gsai.kaist.ac.kr/">KAIST AI</a>, where I work in the <a href="https://davian.kaist.ac.kr/">DAVIAN Lab</a>, advised by Prof. Jaegul Choo. My research focuses on <strong>LLM personalization</strong>, <strong>agent memory</strong>, and <strong>retrieval</strong>, with the goal of building language agents that understand individual users and act on their behalf on the web.</p>
+        <p>In parallel with my studies, I worked for three years as an NLP researcher at <strong>Letsur</strong> (2022–2026), shipping production RAG and information-extraction systems for institutions such as the National Library of Korea. I am currently researching <strong>personalization of deep research agents</strong> through <strong>rubric-based reinforcement learning</strong>.</p>
+      </div>
+      <nav class="links" aria-label="Profiles">
+        <a href="mailto:sby99@kaist.ac.kr" aria-label="Email" title="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+        </a>
+        <a href="https://scholar.google.com/citations?user=K4ob8AoAAAAJ" aria-label="Google Scholar" title="Google Scholar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+        </a>
+        <a href="https://linkedin.com/in/sbyang99" aria-label="LinkedIn" title="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4V8h4v2"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="https://github.com/sbY99" aria-label="GitHub" title="GitHub">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </a>
+      </nav>
+    </div>
+    <div class="portrait">
+      <img src="assets/profile.jpg" alt="Portrait of Seungbin Yang" width="138" height="138">
+    </div>
+  </header>
+
+  <section aria-label="News">
+    <h2>News</h2>
+    <div class="news">
+      <time>Jul 2026</time><p><a href="https://arxiv.org/abs/2607.20482">PersonaTrail</a>, our benchmark for personalized web agents, is now on arXiv.</p>
+      <time>Jun 2026</time><p><a href="https://arxiv.org/abs/2606.05743">Membrane</a>, a self-evolving safety memory for LLM agent defense, is now on arXiv.</p>
+      <time>Apr 2026</time><p>Our adaptive table retrieval paper was accepted to <b>Findings of ACL 2026</b>.</p>
+      <time>Jan 2026</time><p>Two papers (<b>LiveWeb-IE</b>, <b>ExpGuard</b>) were accepted to <b>ICLR 2026</b>.</p>
+    </div>
+  </section>
+
+  <section aria-label="Publications">
+    <h2>Publications</h2>
+    <p class="sectionnote">* denotes equal contribution.</p>
+
+    <p class="year">2026</p>
+
+    <div class="pub">
+      <p class="title"><a href="https://arxiv.org/abs/2607.20482">PersonaTrail: Benchmarking Personalized Web Agents through Browsing Trails</a></p>
+      <p class="authors"><span class="me">Seungbin Yang</span>*, Chaewoon Ki*, Dohyun Lee, Jaegul Choo, ChaeHun Park</p>
+      <p class="meta"><span class="venue">arXiv preprint</span> <a href="https://arxiv.org/abs/2607.20482">arXiv:2607.20482</a></p>
+    </div>
+
+    <div class="pub">
+      <p class="title"><a href="https://arxiv.org/abs/2606.05743">Membrane: A Self-Evolving Contrastive Safety Memory for LLM Agent Defense</a></p>
+      <p class="authors">Minseok Choi*, <span class="me">Seungbin Yang</span>*, Dongjin Kim*, Subin Kim, Jungmin Son, Yunseung Lee, Jaegul Choo, Youngjun Kwak</p>
+      <p class="meta"><span class="venue">arXiv preprint</span> <a href="https://arxiv.org/abs/2606.05743">arXiv:2606.05743</a></p>
+    </div>
+
+    <div class="pub">
+      <p class="title"><a href="https://arxiv.org/abs/2605.18766">Retrieve Only Relevant Tables Whether Few or Many: Adaptive Table Retrieval Method</a></p>
+      <p class="authors">Taehee Kim*, <span class="me">Seungbin Yang</span>*, Jihwan Kim, Jaegul Choo</p>
+      <p class="meta"><span class="venue">Findings of ACL 2026</span> <a href="https://arxiv.org/abs/2605.18766">arXiv:2605.18766</a></p>
+    </div>
+
+    <div class="pub">
+      <p class="title"><a href="https://arxiv.org/abs/2603.13773">LiveWeb-IE: A Benchmark for Online Web Information Extraction</a></p>
+      <p class="authors"><span class="me">Seungbin Yang</span>*, Jihwan Kim*, Jaemin Choi, Dongjin Kim, Soyoung Yang, ChaeHun Park, Jaegul Choo</p>
+      <p class="meta"><span class="venue">ICLR 2026</span> <a href="https://arxiv.org/abs/2603.13773">arXiv:2603.13773</a></p>
+    </div>
+
+    <div class="pub">
+      <p class="title"><a href="https://arxiv.org/abs/2603.02588">ExpGuard: LLM Content Moderation in Specialized Domains</a></p>
+      <p class="authors">Minseok Choi*, Dongjin Kim*, <span class="me">Seungbin Yang</span>*, Subin Kim, Youngjun Kwak, Juyoung Oh, Jaegul Choo, Jungmin Son</p>
+      <p class="meta"><span class="venue">ICLR 2026</span> <a href="https://arxiv.org/abs/2603.02588">arXiv:2603.02588</a></p>
+    </div>
+
+    <p class="year">2024</p>
+
+    <div class="pub">
+      <p class="title"><a href="https://arxiv.org/abs/2406.12307">Can Tool-Augmented Large Language Models Be Aware of Incomplete Conditions?</a></p>
+      <p class="authors"><span class="me">Seungbin Yang</span>*, ChaeHun Park*, Taehee Kim, Jaegul Choo</p>
+      <p class="meta"><span class="venue">arXiv preprint</span> <a href="https://arxiv.org/abs/2406.12307">arXiv:2406.12307</a></p>
+    </div>
+  </section>
+
+  <section aria-label="Experience">
+    <h2>Experience</h2>
+    <div class="entry">
+      <div class="what"><b>NLP Researcher</b>, Letsur
+        <p class="sub">Production NLP engines (information extraction, RAG chatbot, search assistant) and table-retrieval research</p>
+      </div>
+      <time>Nov 2022 – Mar 2026</time>
+    </div>
+    <div class="entry">
+      <div class="what"><b>Undergraduate Researcher</b>, IRIS Lab, Sungkyunkwan University
+        <p class="sub">Artificial Intelligence Grand Challenge 2022</p>
+      </div>
+      <time>Sep 2022 – Jan 2023</time>
+    </div>
+  </section>
+
+  <section aria-label="Education">
+    <h2>Education</h2>
+    <div class="entry">
+      <div class="what"><b>KAIST</b>, Integrated M.S.–Ph.D. in Artificial Intelligence
+        <p class="sub">Graduate School of AI · Advisor: Prof. Jaegul Choo</p>
+      </div>
+      <time>Mar 2024 – Present</time>
+    </div>
+    <div class="entry">
+      <div class="what"><b>Sungkyunkwan University</b>, B.S. in Data Science &amp; Software (Double Major)
+        <p class="sub">GPA 4.21 / 4.5 (Major 4.42 / 4.5)</p>
+      </div>
+      <time>Mar 2018 – Mar 2024</time>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Seungbin Yang</span>
+    <span>Last updated Aug 2026</span>
+  </footer>
+
+</div>
+</body>
+</html>
