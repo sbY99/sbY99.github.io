@@ -36,3 +36,9 @@ Jon Barron 계열의 미니멀 아카데믹 스타일 개인 홈페이지 (단�
 - 논문 추가: `Publications` 섹션의 `<div class="pub">` 블록 하나를 복사해서 수정
 - 본인 이름 강조는 `<span class="me">Seungbin Yang</span>`, 동등기여는 `*`
 - 다크 모드는 방문자 OS 설정에 따라 자동 적용됨 (별도 작업 불필요)
+
+## 논문 프로젝트 페이지
+
+- 논문별 프로젝트 페이지는 루트의 각 폴더에 있다: `LiveWeb-IE/`, `PersonaTrail/`, `ExpGuard/`, `Membrane/`, `ATR/`, `IncompleteConditions/` → `https://sby99.github.io/<폴더명>/`
+- 각 폴더는 독립적으로 동작한다: `index.html` + `static/` (`css/page.css`, `images/`, `videos/demo.mp4` 데모 영상)
+- 홈페이지 Publications의 제목과 `Project page` 링크가 각 페이지로 연결된다.

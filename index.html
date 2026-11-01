@@ -118,6 +118,8 @@
     border-radius: 4px; padding: .08rem .5rem; font-weight: 600; font-size: .8rem;
   }
   .meta a { font-size: .85rem; }
+  .meta a + a::before { content: "·"; color: var(--faint); margin-right: .45rem; display: inline-block; }
+  .meta a.proj { font-weight: 600; }
 
   /* experience / education / mentoring */
   .entry { display: flex; gap: 1rem; justify-content: space-between; align-items: baseline; margin-top: 1rem; }
@@ -152,7 +154,7 @@
       <h1>Seungbin Yang</h1>
       <p class="role">Ph.D. student · <b>Graduate School of AI, KAIST</b></p>
       <div class="bio">
-        <p>I am an Integrated M.S.–Ph.D. student at <a href="https://gsai.kaist.ac.kr/">KAIST AI</a>, where I work in the <a href="https://davian.kaist.ac.kr/">DAVIAN Lab</a>, advised by Prof. Jaegul Choo. My research focuses on <strong>multimodal LLM agents</strong> that understand individual users and interact with them over time, spanning <strong>personalization</strong>, <strong>agent memory</strong>, and <strong>agents in live environments</strong>. Recent work includes a visually grounded agent that extracts information from live websites (LiveWeb-IE, ICLR 2026), personalized agents that infer user preferences from raw browsing histories (PersonaTrail), and a self-evolving safety memory for LLM agents (Membrane, EMNLP 2026).</p>
+        <p>I am an Integrated M.S.–Ph.D. student at <a href="https://gsai.kaist.ac.kr/">KAIST AI</a>, where I work in the <a href="https://davian.kaist.ac.kr/">DAVIAN Lab</a>, advised by Prof. Jaegul Choo. My research focuses on <strong>multimodal LLM agents</strong> that understand individual users and interact with them over time, spanning <strong>personalization</strong>, <strong>agent memory</strong>, and <strong>agents in live environments</strong>. Recent work includes a visually grounded agent that extracts information from live websites (<a href="LiveWeb-IE/">LiveWeb-IE</a>, ICLR 2026), personalized agents that infer user preferences from raw browsing histories (<a href="PersonaTrail/">PersonaTrail</a>), and a self-evolving safety memory for LLM agents (<a href="Membrane/">Membrane</a>, EMNLP 2026).</p>
         <p>In parallel with my studies, I worked for three years as an NLP researcher at <strong>Letsur</strong> (2022–2026), shipping production RAG and information-extraction systems for institutions such as the National Library of Korea. I am currently training <strong>personalized deep research agents</strong> with <strong>rubric-based reinforcement learning</strong>, and I aim to extend this line to multimodal agents that act alongside users in GUI environments.</p>
       </div>
       <nav class="links" aria-label="Profiles">
@@ -178,11 +180,11 @@
   <section aria-label="News">
     <h2>News</h2>
     <div class="news">
-      <time>Aug 2026</time><p><b>Membrane</b> was accepted to <b>EMNLP 2026</b>.</p>
-      <time>Jul 2026</time><p><a href="https://arxiv.org/abs/2607.20482">PersonaTrail</a>, our benchmark for personalized web agents, is now on arXiv.</p>
-      <time>Jun 2026</time><p><a href="https://arxiv.org/abs/2606.05743">Membrane</a>, a self-evolving safety memory for LLM agent defense, is now on arXiv.</p>
-      <time>Apr 2026</time><p>Our adaptive table retrieval paper was accepted to <b>Findings of ACL 2026</b>.</p>
-      <time>Jan 2026</time><p>Two papers (<b>LiveWeb-IE</b>, <b>ExpGuard</b>) were accepted to <b>ICLR 2026</b>.</p>
+      <time>Aug 2026</time><p><a href="Membrane/"><b>Membrane</b></a> was accepted to <b>EMNLP 2026</b>.</p>
+      <time>Jul 2026</time><p><a href="PersonaTrail/">PersonaTrail</a>, our benchmark for personalized web agents, is now on <a href="https://arxiv.org/abs/2607.20482">arXiv</a>.</p>
+      <time>Jun 2026</time><p><a href="Membrane/">Membrane</a>, a self-evolving safety memory for LLM agent defense, is now on <a href="https://arxiv.org/abs/2606.05743">arXiv</a>.</p>
+      <time>Apr 2026</time><p>Our <a href="ATR/">adaptive table retrieval</a> paper was accepted to <b>Findings of ACL 2026</b>.</p>
+      <time>Jan 2026</time><p>Two papers (<a href="LiveWeb-IE/"><b>LiveWeb-IE</b></a>, <a href="ExpGuard/"><b>ExpGuard</b></a>) were accepted to <b>ICLR 2026</b>.</p>
     </div>
   </section>
 
@@ -192,41 +194,41 @@
     <p class="year">2026</p>
 
     <div class="pub">
-      <p class="title"><a href="https://arxiv.org/abs/2607.20482">PersonaTrail: Benchmarking Personalized Web Agents through Browsing Trails</a></p>
+      <p class="title"><a href="PersonaTrail/">PersonaTrail: Benchmarking Personalized Web Agents through Browsing Trails</a></p>
       <p class="authors"><span class="me">Seungbin Yang</span>*, Chaewoon Ki*, Dohyun Lee, Jaegul Choo, ChaeHun Park</p>
-      <p class="meta"><span class="venue">arXiv preprint</span> <a href="https://arxiv.org/abs/2607.20482">arXiv:2607.20482</a></p>
+      <p class="meta"><span class="venue">arXiv preprint</span> <a class="proj" href="PersonaTrail/">Project page</a> <a href="https://arxiv.org/abs/2607.20482">arXiv</a></p>
     </div>
 
     <div class="pub">
-      <p class="title"><a href="https://arxiv.org/abs/2606.05743">Membrane: A Self-Evolving Contrastive Safety Memory for LLM Agent Defense</a></p>
+      <p class="title"><a href="Membrane/">Membrane: A Self-Evolving Contrastive Safety Memory for LLM Agent Defense</a></p>
       <p class="authors">Minseok Choi*, <span class="me">Seungbin Yang</span>*, Dongjin Kim*, Subin Kim, Jungmin Son, Yunseung Lee, Jaegul Choo, Youngjun Kwak</p>
-      <p class="meta"><span class="venue">EMNLP 2026</span> <a href="https://arxiv.org/abs/2606.05743">arXiv:2606.05743</a></p>
+      <p class="meta"><span class="venue">EMNLP 2026</span> <a class="proj" href="Membrane/">Project page</a> <a href="https://arxiv.org/abs/2606.05743">arXiv</a> <a href="https://github.com/brightjade/membrane">Code</a></p>
     </div>
 
     <div class="pub">
-      <p class="title"><a href="https://arxiv.org/abs/2605.18766">Retrieve Only Relevant Tables Whether Few or Many: Adaptive Table Retrieval Method</a></p>
+      <p class="title"><a href="ATR/">Retrieve Only Relevant Tables Whether Few or Many: Adaptive Table Retrieval Method</a></p>
       <p class="authors">Taehee Kim*, <span class="me">Seungbin Yang</span>*, Jihwan Kim, Jaegul Choo</p>
-      <p class="meta"><span class="venue">Findings of ACL 2026</span> <a href="https://arxiv.org/abs/2605.18766">arXiv:2605.18766</a></p>
+      <p class="meta"><span class="venue">Findings of ACL 2026</span> <a class="proj" href="ATR/">Project page</a> <a href="https://arxiv.org/abs/2605.18766">arXiv</a> <a href="https://github.com/sbY99/Adaptive-Table-Retrieval">Code</a></p>
     </div>
 
     <div class="pub">
-      <p class="title"><a href="https://arxiv.org/abs/2603.13773">LiveWeb-IE: A Benchmark for Online Web Information Extraction</a></p>
+      <p class="title"><a href="LiveWeb-IE/">LiveWeb-IE: A Benchmark for Online Web Information Extraction</a></p>
       <p class="authors"><span class="me">Seungbin Yang</span>*, Jihwan Kim*, Jaemin Choi, Dongjin Kim, Soyoung Yang, ChaeHun Park, Jaegul Choo</p>
-      <p class="meta"><span class="venue">ICLR 2026</span> <a href="https://arxiv.org/abs/2603.13773">arXiv:2603.13773</a></p>
+      <p class="meta"><span class="venue">ICLR 2026</span> <a class="proj" href="LiveWeb-IE/">Project page</a> <a href="https://arxiv.org/abs/2603.13773">arXiv</a> <a href="https://github.com/sbY99/LiveWeb-IE">Dataset</a></p>
     </div>
 
     <div class="pub">
-      <p class="title"><a href="https://arxiv.org/abs/2603.02588">ExpGuard: LLM Content Moderation in Specialized Domains</a></p>
+      <p class="title"><a href="ExpGuard/">ExpGuard: LLM Content Moderation in Specialized Domains</a></p>
       <p class="authors">Minseok Choi*, Dongjin Kim*, <span class="me">Seungbin Yang</span>*, Subin Kim, Youngjun Kwak, Juyoung Oh, Jaegul Choo, Jungmin Son</p>
-      <p class="meta"><span class="venue">ICLR 2026</span> <a href="https://arxiv.org/abs/2603.02588">arXiv:2603.02588</a></p>
+      <p class="meta"><span class="venue">ICLR 2026</span> <a class="proj" href="ExpGuard/">Project page</a> <a href="https://arxiv.org/abs/2603.02588">arXiv</a> <a href="https://github.com/brightjade/ExpGuard">Code</a> <a href="https://huggingface.co/collections/6rightjade/expguard">Models</a></p>
     </div>
 
     <p class="year">2024</p>
 
     <div class="pub">
-      <p class="title"><a href="https://arxiv.org/abs/2406.12307">Can Tool-Augmented Large Language Models Be Aware of Incomplete Conditions?</a></p>
+      <p class="title"><a href="IncompleteConditions/">Can Tool-Augmented Large Language Models Be Aware of Incomplete Conditions?</a></p>
       <p class="authors"><span class="me">Seungbin Yang</span>*, ChaeHun Park*, Taehee Kim, Jaegul Choo</p>
-      <p class="meta"><span class="venue">arXiv preprint</span> <a href="https://arxiv.org/abs/2406.12307">arXiv:2406.12307</a></p>
+      <p class="meta"><span class="venue">arXiv preprint</span> <a class="proj" href="IncompleteConditions/">Project page</a> <a href="https://arxiv.org/abs/2406.12307">arXiv</a> <a href="https://huggingface.co/datasets/ddehun/ICT">Dataset</a></p>
     </div>
   </section>
 
