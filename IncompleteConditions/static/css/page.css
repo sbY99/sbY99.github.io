@@ -14,8 +14,7 @@ sup { font-size: .68em; line-height: 0; }
 .venue { font: 600 .98rem "Google Sans", "Noto Sans", sans-serif; color: var(--muted); letter-spacing: .02em; margin-bottom: 12px; }
 h1 { font: 700 2.4rem/1.2 "Google Sans", "Noto Sans", sans-serif; letter-spacing: -.012em; max-width: 920px; margin: 0 auto 20px; }
 .authors { font-size: 1.1rem; line-height: 1.8; }
-.authors a, .authors span { margin: 0 .42rem; white-space: nowrap; color: inherit; }
-.authors a { color: var(--link); }
+.authors span { margin: 0 .42rem; white-space: nowrap; }
 .affils { color: var(--muted); font-size: 1rem; margin-top: 2px; }
 .affils span { margin: 0 .55rem; white-space: nowrap; }
 .notes { color: var(--muted); font-size: .9rem; margin-top: 4px; }
