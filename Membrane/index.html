@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Membrane: A Self-Evolving Contrastive Safety Memory for LLM Agent Defense</title>
+  <meta name="description" content="Membrane is a self-evolving guardrail whose memory cells pair when to block a harmful query with when to permit a similar benign one.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Membrane: A Self-Evolving Contrastive Safety Memory for LLM Agent Defense">
+  <meta property="og:description" content="Membrane is a self-evolving guardrail whose memory cells pair when to block a harmful query with when to permit a similar benign one.">
+  <meta property="og:url" content="https://sby99.github.io/Membrane/">
+  <meta property="og:image" content="https://sby99.github.io/Membrane/static/images/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/page.css">
+</head>
+<body>
+<div class="topbar"><a href="https://sby99.github.io/"><i class="fa-solid fa-arrow-left"></i> Seungbin Yang</a></div>
+<header class="hero">
+  <p class="venue">EMNLP 2026</p>
+  <h1>Membrane: A Self-Evolving Contrastive Safety Memory for LLM Agent Defense</h1>
+  <p class="authors"><span class="author">Minseok Choi<sup>1*</sup></span>
+      <a class="author me" href="https://sby99.github.io/">Seungbin Yang<sup>1*</sup></a>
+      <a class="author" href="https://k00dj-19.github.io/">Dongjin Kim<sup>1*</sup></a>
+      <span class="author">Subin Kim<sup>2</sup></span>
+      <span class="author">Jungmin Son<sup>2</sup></span>
+      <span class="author">Yunseung Lee<sup>2</sup></span>
+      <a class="author" href="https://sites.google.com/site/jaegulchoo/">Jaegul Choo<sup>1</sup></a>
+      <span class="author">Youngjun Kwak<sup>2†</sup></span></p>
+  <p class="affils"><span><sup>1</sup>KAIST AI</span>
+      <span><sup>2</sup>Financial Tech Lab, KakaoBank Corp</span></p>
+  <p class="notes"><span>* Equal contribution</span><span>† Corresponding author</span></p>
+  <div class="links">
+    <a class="btn" href="https://arxiv.org/pdf/2606.05743"><i class="fa-solid fa-file-pdf"></i><span>Paper</span></a>
+    <a class="btn" href="https://arxiv.org/abs/2606.05743"><i class="ai ai-arxiv"></i><span>arXiv</span></a>
+    <a class="btn" href="https://github.com/brightjade/membrane"><i class="fa-brands fa-github"></i><span>Code</span></a>
+  </div>
+</header>
+<main>
+<figure class="teaser">
+  <video autoplay muted loop playsinline controls preload="metadata" poster="static/videos/demo_poster.jpg">
+    <source src="static/videos/demo.mp4" type="video/mp4">
+  </video>
+  <figcaption>Illustrative demo. A persuasion jailbreak from the paper bypasses the guard; paired self-evolution writes a contrastive cell from it and its benign counterpart, and the cell then blocks the same strategy on a new topic while a similar benign request passes.</figcaption>
+</figure>
+<section id="abstract" class="abstract"><h2>Abstract</h2>
+<p>Despite advances in safety alignment, large language models remain vulnerable to continuously evolving jailbreaks. Existing fine-tuned safety classifiers cannot adapt to these evolving attacks, while adaptive memory-based guardrails tend to over-refuse benign queries that resemble stored attacks. We propose Membrane, a self-evolving guardrail built on Contrastive Safety Memory (CSM): each cell pairs the conditions for blocking a harmful query with those for permitting a superficially similar benign request. Without retraining, Membrane evolves CSM by distilling each harmful interaction and its benign counterpart into a contrastive cell indexed by the underlying attack strategy, so that one cell generalizes across topical variants of the same mechanism. At inference, retrieved cells serve as grounding context for precise safety decisions. Across model-level safety on HarmBench and agent-level safety on AgentHarm, Membrane achieves the highest F1 on all six modern jailbreak attacks. Notably, benign refusal on AgentHarm stays at 7-14%, well below the 28-85% range of prior guards. Memory cells also retain 87-88% F1 under cross-attack transfer and remain stable under memory poisoning.</p></section>
+
+<section id="method"><h2>Method</h2>
+<figure><img src="static/images/overview.webp" alt="Membrane overview" loading="lazy"><figcaption>Overview of Membrane. Inference (blue): the Retrieval Critic filters retrieved candidates and the Guard decides safe/unsafe on the kept cells. Paired self-evolution (purple): each harmful–benign interaction pair drives the Memory Planner and Memory Writer.</figcaption></figure>
+<ul>
+<li><b>Contrastive Safety Memory.</b> Each cell pairs the conditions for blocking a harmful query with those for permitting a superficially similar benign request. Cells are indexed by attack strategy, not by topic, so one cell covers topical variants of the same mechanism.</li>
+<li><b>Paired self-evolution.</b> For each harmful query and its benign counterpart, a Memory Planner chooses to create, update, delete or skip a cell, a Memory Writer writes its content, and a non-LLM validator accepts or rejects the write. No retraining is involved.</li>
+<li><b>Inference.</b> Vector retrieval over-retrieves candidate cells, a Retrieval Critic drops the ones that do not apply, and the Guard decides with the rest: two LLM calls per query.</li>
+</ul></section>
+<section id="results"><h2>Results</h2>
+<div class="table-wrap"><table><thead><tr class="group"><th></th><th colspan=2>HarmBench (model safety)</th><th colspan=2>AgentHarm (agent safety)</th></tr><tr><th>Attack</th><th>Strongest other guard</th><th>Membrane</th><th>Strongest other guard</th><th>Membrane</th></tr></thead><tbody><tr><td>PAIR</td><td>85.3<small>GuardReasoner</small></td><td><b>89.5</b></td><td>62.2<small>GuardAgent</small></td><td><b>69.5</b></td></tr><tr><td>PAP</td><td>79.3<small>GuardReasoner</small></td><td><b>85.0</b></td><td>55.5<small>ShieldAgent</small></td><td><b>60.5</b></td></tr><tr><td>TAP</td><td>81.3<small>RAD</small></td><td><b>93.4</b></td><td>65.7<small>AGrail</small></td><td><b>81.5</b></td></tr><tr><td>ReNeLLM</td><td>92.6<small>RAD</small></td><td><b>97.8</b></td><td>67.0<small>AGrail</small></td><td><b>89.2</b></td></tr><tr><td>FlipAttack</td><td>92.7<small>GuardReasoner</small></td><td><b>98.1</b></td><td>70.3<small>AGrail</small></td><td><b>93.0</b></td></tr><tr><td>AutoDAN-Turbo</td><td>86.5<small>GuardReasoner</small></td><td><b>87.4</b></td><td>60.0<small>AGrail</small></td><td><b>70.5</b></td></tr></tbody></table></div><p class="tnote">F1 (%) per jailbreak attack, from Tables 1 and 2 of the paper. Membrane is averaged over three seeds.</p>
+<ul>
+<li>Membrane has the highest F1 on all six attacks on both benchmarks.</li>
+<li>Benign refusal on AgentHarm stays at 7–14%, compared with 28–53% for adaptive memory baselines and 73–85% for static guards.</li>
+<li>Memory cells retain 87–88% F1 under cross-attack transfer. On streams of attacks withheld from warmup, online self-evolution improves F1 on 11 of 12 streams, by up to 13.4 points on HarmBench and 32.2 on AgentHarm.</li>
+</ul></section>
+<section id="bibtex"><h2>BibTeX</h2>
+<pre><code>@inproceedings{choi2026membrane,
+  title     = {Membrane: A Self-Evolving Contrastive Safety Memory for LLM Agent Defense},
+  author    = {Choi, Minseok and Yang, Seungbin and Kim, Dongjin and Kim, Subin and Son, Jungmin and Lee, Yunseung and Choo, Jaegul and Kwak, Youngjun},
+  booktitle = {Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing},
+  year      = {2026}
+}</code></pre></section>
+</main>
+<footer><a href="https://sby99.github.io/">Seungbin Yang</a></footer>
+</body>
+</html>

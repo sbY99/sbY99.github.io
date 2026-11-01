@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ExpGuard: LLM Content Moderation in Specialized Domains</title>
+  <meta name="description" content="ExpGuard is a guardrail for financial, medical and legal content, trained on ExpGuardMix; it catches harmful requests hidden in technical jargon.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ExpGuard: LLM Content Moderation in Specialized Domains">
+  <meta property="og:description" content="ExpGuard is a guardrail for financial, medical and legal content, trained on ExpGuardMix; it catches harmful requests hidden in technical jargon.">
+  <meta property="og:url" content="https://sby99.github.io/ExpGuard/">
+  <meta property="og:image" content="https://sby99.github.io/ExpGuard/static/images/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/page.css">
+</head>
+<body>
+<div class="topbar"><a href="https://sby99.github.io/"><i class="fa-solid fa-arrow-left"></i> Seungbin Yang</a></div>
+<header class="hero">
+  <p class="venue">ICLR 2026</p>
+  <h1>ExpGuard: LLM Content Moderation in Specialized Domains</h1>
+  <p class="authors"><span class="author">Minseok Choi<sup>1*</sup></span>
+      <a class="author" href="https://k00dj-19.github.io/">Dongjin Kim<sup>1*</sup></a>
+      <a class="author me" href="https://sby99.github.io/">Seungbin Yang<sup>1*</sup></a>
+      <span class="author">Subin Kim<sup>2</sup></span>
+      <span class="author">Youngjun Kwak<sup>2</sup></span>
+      <span class="author">Juyoung Oh<sup>2</sup></span>
+      <a class="author" href="https://sites.google.com/site/jaegulchoo/">Jaegul Choo<sup>1</sup></a>
+      <span class="author">Jungmin Son<sup>2</sup></span></p>
+  <p class="affils"><span><sup>1</sup>KAIST AI</span>
+      <span><sup>2</sup>Financial Tech Lab, KakaoBank Corp</span></p>
+  <p class="notes"><span>* Equal contribution</span></p>
+  <div class="links">
+    <a class="btn" href="https://arxiv.org/pdf/2603.02588"><i class="fa-solid fa-file-pdf"></i><span>Paper</span></a>
+    <a class="btn" href="https://arxiv.org/abs/2603.02588"><i class="ai ai-arxiv"></i><span>arXiv</span></a>
+    <a class="btn" href="https://openreview.net/forum?id=t5cYJlV6aJ"><i class="fa-regular fa-comments"></i><span>OpenReview</span></a>
+    <a class="btn" href="https://github.com/brightjade/ExpGuard"><i class="fa-brands fa-github"></i><span>Code</span></a>
+    <a class="btn" href="https://huggingface.co/collections/6rightjade/expguard"><img src="static/images/hf-logo.svg" alt=""><span>Models</span></a>
+    <a class="btn" href="https://huggingface.co/datasets/6rightjade/expguardmix"><img src="static/images/hf-logo.svg" alt=""><span>Dataset</span></a>
+    <a class="btn" href="static/images/poster.webp"><i class="fa-regular fa-image"></i><span>Poster</span></a>
+  </div>
+</header>
+<main>
+<figure class="teaser">
+  <video autoplay muted loop playsinline controls preload="metadata" poster="static/videos/demo_poster.jpg">
+    <source src="static/videos/demo.mp4" type="video/mp4">
+  </video>
+  <figcaption>Illustrative demo. Ordinary expert questions pass ExpGuard’s prompt and response checks. Harmful prompts phrased in financial, medical and legal jargon, which WildGuard labels safe, are flagged unsafe.</figcaption>
+</figure>
+<section id="abstract" class="abstract"><h2>Abstract</h2>
+<p>With the growing deployment of large language models (LLMs) in real-world applications, establishing robust safety guardrails to moderate their inputs and outputs has become essential to ensure adherence to safety policies. Current guardrail models predominantly address general human-LLM interactions, rendering LLMs vulnerable to harmful and adversarial content within domain-specific contexts, particularly those rich in technical jargon and specialized concepts. To address this limitation, we introduce ExpGuard, a robust and specialized guardrail model designed to protect against harmful prompts and responses across financial, medical, and legal domains. In addition, we present ExpGuardMix, a meticulously curated dataset comprising 58,928 labeled prompts paired with corresponding refusal and compliant responses, from these specific sectors. This dataset is divided into two subsets: ExpGuardTrain, for model training, and ExpGuardTest, a high-quality test set annotated by domain experts to evaluate model robustness against technical and domain-specific content. Comprehensive evaluations conducted on ExpGuardTest and eight established public benchmarks reveal that ExpGuard delivers competitive performance across the board while demonstrating exceptional resilience to domain-specific adversarial attacks, surpassing state-of-the-art models such as WildGuard by up to 8.9% in prompt classification and 15.3% in response classification. To encourage further research and development, we open-source our code, data, and model, enabling adaptation to additional domains and supporting the creation of increasingly robust guardrail models.</p></section>
+
+<section id="data"><h2>ExpGuardMix</h2>
+<p>General-purpose guardrails are trained mostly on everyday conversations. A request can be harmful only because of what a technical term means, so a guardrail without domain knowledge reads it as routine.</p>
+<figure><img src="static/images/pipeline.webp" alt="ExpGuardMix construction pipeline" loading="lazy"><figcaption>ExpGuardMix construction: terminology mining, prompt and response construction, and labeling and filtering.</figcaption></figure>
+<ul>
+<li><b>58,928 labeled prompts</b> paired with compliant and refusal responses, split into ExpGuardTrain and ExpGuardTest.</li>
+<li>The finance, healthcare and law subsets are generated from <b>2,646 technical terms</b> mined from Wikipedia. Each sample is labeled by three LLMs and kept only if at least two assign the same harm category.</li>
+<li><b>ExpGuardTest</b> has 2,275 items (964 financial, 771 medical, 540 legal). The financial subset was audited by authors with banking experience; agreement with the LLM labels is Cohen’s κ = 0.89 for prompts and 0.98 for responses.</li>
+</ul></section>
+<section id="model"><h2>ExpGuard</h2>
+<p>ExpGuard fine-tunes Qwen2.5-7B on ExpGuardTrain. Given a prompt, it classifies the prompt as safe or unsafe; given a prompt and a response, it classifies both.</p></section>
+<section id="results"><h2>Results</h2>
+<div class="table-wrap"><table><thead><tr class="group"><th></th><th colspan=4>Prompt classification</th><th colspan=4>Response classification</th></tr><tr><th>Guardrail</th><th>Financial</th><th>Medical</th><th>Legal</th><th>Total</th><th>Financial</th><th>Medical</th><th>Legal</th><th>Total</th></tr></thead><tbody><tr><td>Llama-Guard3</td><td>74.3</td><td>69.1</td><td>67.5</td><td>71.1</td><td>87.6</td><td>81.9</td><td>80.4</td><td>84.2</td></tr><tr><td>Aegis-Guard-D</td><td>84.8</td><td>77.7</td><td>85.7</td><td>82.9</td><td>91.8</td><td>78.0</td><td>88.1</td><td>87.2</td></tr><tr><td>WildGuard</td><td>84.8</td><td>81.0</td><td>88.0</td><td>84.4</td><td>82.4</td><td>62.8</td><td>83.1</td><td>77.4</td></tr><tr class="ours"><td>ExpGuard (ours)</td><td><b>94.1</b></td><td><b>91.2</b></td><td><b>94.6</b></td><td><b>93.3</b></td><td><b>96.7</b></td><td><b>86.2</b></td><td><b>92.4</b></td><td><b>92.7</b></td></tr></tbody></table></div><p class="tnote">F1 (%) on ExpGuardTest (Table 2 of the paper). Shown: the strongest baselines; the paper compares 4 API-based tools and 11 LLM-based guardrails, and ExpGuard is best in every column.</p>
+<ul>
+<li>On eight public safety benchmarks, ExpGuard averages 85.7 F1 on prompts and 78.5 on responses (WildGuard: 84.2 and 78.8).</li>
+</ul></section>
+<section id="bibtex"><h2>BibTeX</h2>
+<pre><code>@inproceedings{choi2026expguard,
+  title     = {ExpGuard: LLM Content Moderation in Specialized Domains},
+  author    = {Choi, Minseok and Kim, Dongjin and Yang, Seungbin and Kim, Subin and Kwak, Youngjun and Oh, Juyoung and Choo, Jaegul and Son, Jungmin},
+  booktitle = {The Fourteenth International Conference on Learning Representations},
+  year      = {2026},
+  url       = {https://openreview.net/forum?id=t5cYJlV6aJ}
+}</code></pre></section>
+</main>
+<footer><a href="https://sby99.github.io/">Seungbin Yang</a></footer>
+</body>
+</html>

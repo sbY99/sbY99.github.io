@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Can Tool-Augmented Large Language Models Be Aware of Incomplete Conditions?</title>
+  <meta name="description" content="A benchmark of tool-use instances with a missing tool or missing user information, and Structured Verification, a prompting strategy that helps LLMs decide when not to call a tool.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Can Tool-Augmented Large Language Models Be Aware of Incomplete Conditions?">
+  <meta property="og:description" content="A benchmark of tool-use instances with a missing tool or missing user information, and Structured Verification, a prompting strategy that helps LLMs decide when not to call a tool.">
+  <meta property="og:url" content="https://sby99.github.io/IncompleteConditions/">
+  <meta property="og:image" content="https://sby99.github.io/IncompleteConditions/static/images/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/page.css">
+</head>
+<body>
+<div class="topbar"><a href="https://sby99.github.io/"><i class="fa-solid fa-arrow-left"></i> Seungbin Yang</a></div>
+<header class="hero">
+  <p class="venue">arXiv 2024</p>
+  <h1>Can Tool-Augmented Large Language Models Be Aware of Incomplete Conditions?</h1>
+  <p class="authors"><a class="author me" href="https://sby99.github.io/">Seungbin Yang<sup>1,2*</sup></a>
+      <span class="author">ChaeHun Park<sup>1*</sup></span>
+      <span class="author">Taehee Kim<sup>1,2</sup></span>
+      <a class="author" href="https://sites.google.com/site/jaegulchoo/">Jaegul Choo<sup>1</sup></a></p>
+  <p class="affils"><span><sup>1</sup>KAIST AI</span>
+      <span><sup>2</sup>Letsur</span></p>
+  <p class="notes"><span>* Equal contribution</span></p>
+  <div class="links">
+    <a class="btn" href="https://arxiv.org/pdf/2406.12307"><i class="fa-solid fa-file-pdf"></i><span>Paper</span></a>
+    <a class="btn" href="https://arxiv.org/abs/2406.12307"><i class="ai ai-arxiv"></i><span>arXiv</span></a>
+    <a class="btn" href="https://huggingface.co/datasets/ddehun/ICT"><img src="static/images/hf-logo.svg" alt=""><span>Dataset</span></a>
+  </div>
+</header>
+<main>
+<figure class="teaser">
+  <video autoplay muted loop playsinline controls preload="metadata" poster="static/videos/demo_poster.jpg">
+    <source src="static/videos/demo.mp4" type="video/mp4">
+  </video>
+  <figcaption>Illustrative demo built on the paper’s Figure 1 example. When the time is removed from the request or the weather tool is replaced, the correct decision is No; Structured Verification reaches it by checking the goal, requirements, tools and inputs.</figcaption>
+</figure>
+<section id="abstract" class="abstract"><h2>Abstract</h2>
+<p>Recent advancements in integrating large language models (LLMs) with tools have allowed the models to interact with real-world environments. However, these tool-augmented LLMs often encounter incomplete scenarios when users provide partial information or the necessary tools are unavailable. Recognizing and managing such scenarios is crucial for LLMs to ensure their reliability, but this exploration remains understudied. This study examines whether LLMs can identify incomplete conditions and appropriately determine when to refrain from using tools. To quantitatively evaluate this capability, we construct a new benchmark dataset where instances are systematically altered to simulate the ambiguous and incomplete conditions common in real-world interactions. Our experiments reveal that even state-of-the-art LLMs often struggle to identify these conditions, attempting to use tools without sufficient information or when the correct tool is unavailable. To better understand these limitations, we conduct a detailed behavioral analysis across various conditions, including implicit evaluation and scenarios where models receive feedback from previous tool invocations. Based on this analysis, we propose a novel prompting-based reasoning strategy that explicitly instructs models to assess the sufficiency of information and the availability of tools. Our proposed approach significantly enhances the models&#39; ability to recognize incomplete conditions, resulting in more informed and contextually appropriate tool-use decisions. We believe our research contributes to advancing the reliability of LLMs, especially in real-world applications where incomplete or ambiguous information is common. Our dataset is available at <a href="https://huggingface.co/datasets/ddehun/ICT">Hugging Face</a>.</p></section>
+
+<section id="benchmark"><h2>Benchmark</h2>
+<p>Tool-use benchmarks usually assume that a suitable tool exists and that the user has given everything it needs. We test whether LLMs recognize when either is missing.</p>
+<figure><img src="static/images/construction.webp" alt="Dataset construction pipeline" loading="lazy"><figcaption>Dataset construction pipeline.</figcaption></figure>
+<ul>
+<li>Starting from APIBank and ToolBench test instances, which can all be served by the given APIs, each instance is altered in one of two ways. <b>API replacement</b> swaps the relevant API for one of its most similar but unsuitable APIs, found with a sentence encoder. <b>Utterance removal</b> uses GPT-4 to delete information the call depends on.</li>
+<li>Every instance is checked by hand. The final set has <b>1,610 instances</b>: 900 with API replacement and 710 with utterance removal.</li>
+<li>Given the dialogue and the API list, a model answers whether a tool call can fulfill the request (Yes or No). Original and altered instances are both evaluated.</li>
+</ul></section>
+<section id="method"><h2>Structured Verification</h2>
+<p>A prompting strategy that makes the model check the request before deciding. It needs no tool execution and no fine-tuning.</p>
+<ol>
+<li><b>Problem understanding.</b> Summarize the user’s goal.</li>
+<li><b>Requirement analysis.</b> Identify the data or functionality needed to fulfill it.</li>
+<li><b>API mapping.</b> Check whether the available APIs provide it.</li>
+<li><b>Information sufficiency.</b> Check whether the user has given enough information for a valid call.</li>
+<li><b>Conclusion.</b> Answer “Yes” only if a suitable API and sufficient information are both present.</li>
+</ol></section>
+<section id="results"><h2>Results</h2>
+<div class="table-wrap"><table><thead><tr class="group"><th></th><th colspan=2>API replacement</th><th colspan=2>Utterance removal</th></tr><tr><th>Prompting</th><th>APIBank</th><th>ToolBench</th><th>APIBank</th><th>ToolBench</th></tr></thead><tbody><tr><td>Zero-shot</td><td>77.2</td><td>59.7</td><td>58.2</td><td>28.4</td></tr><tr><td>Chain-of-Thought</td><td>79.0</td><td>68.8</td><td>70.4</td><td>49.4</td></tr><tr class="ours"><td>Structured Verification (ours)</td><td><b>81.4</b></td><td><b>74.5</b></td><td><b>86.9</b></td><td><b>76.5</b></td></tr></tbody></table></div><p class="tnote">F1 (%) for detecting incomplete conditions (“No” is the positive class), mean over the 10 open and proprietary LLMs in Table 7 of the paper.</p>
+<ul>
+<li>LLMs often decide to call a tool even when the information or the tool is missing, especially on ToolBench, whose API lists are longer and more complex.</li>
+<li>Structured Verification raises mean F1 on all four subsets, most on utterance removal (+28.7 on APIBank and +48.1 on ToolBench over zero-shot).</li>
+</ul></section>
+<section id="bibtex"><h2>BibTeX</h2>
+<pre><code>@article{yang2024tool,
+  title   = {Can Tool-Augmented Large Language Models Be Aware of Incomplete Conditions?},
+  author  = {Yang, Seungbin and Park, ChaeHun and Kim, Taehee and Choo, Jaegul},
+  journal = {arXiv preprint arXiv:2406.12307},
+  year    = {2024}
+}</code></pre></section>
+</main>
+<footer><a href="https://sby99.github.io/">Seungbin Yang</a></footer>
+</body>
+</html>
