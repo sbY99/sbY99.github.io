@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LiveWeb-IE: A Benchmark for Online Web Information Extraction</title>
+  <meta name="description" content="LiveWeb-IE evaluates web information extraction on live websites, and VGS extracts values by visually narrowing down the page before writing an XPath.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LiveWeb-IE: A Benchmark for Online Web Information Extraction">
+  <meta property="og:description" content="LiveWeb-IE evaluates web information extraction on live websites, and VGS extracts values by visually narrowing down the page before writing an XPath.">
+  <meta property="og:url" content="https://sby99.github.io/LiveWeb-IE/">
+  <meta property="og:image" content="https://sby99.github.io/LiveWeb-IE/static/images/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/page.css">
+</head>
+<body>
+<div class="topbar"><a href="https://sby99.github.io/"><i class="fa-solid fa-arrow-left"></i> Seungbin Yang</a></div>
+<header class="hero">
+  <p class="venue">ICLR 2026</p>
+  <h1>LiveWeb-IE: A Benchmark for Online Web Information Extraction</h1>
+  <p class="authors"><a class="author me" href="https://sby99.github.io/">Seungbin Yang<sup>1,2*</sup></a>
+      <span class="author">Jihwan Kim<sup>1*</sup></span>
+      <span class="author">Jaemin Choi<sup>3</sup></span>
+      <a class="author" href="https://k00dj-19.github.io/">Dongjin Kim<sup>1</sup></a>
+      <span class="author">Soyoung Yang<sup>1</sup></span>
+      <span class="author">ChaeHun Park<sup>1</sup></span>
+      <a class="author" href="https://sites.google.com/site/jaegulchoo/">Jaegul Choo<sup>1</sup></a></p>
+  <p class="affils"><span><sup>1</sup>KAIST AI</span>
+      <span><sup>2</sup>Letsur</span>
+      <span><sup>3</sup>Chung-Ang University</span></p>
+  <p class="notes"><span>* Equal contribution</span></p>
+  <div class="links">
+    <a class="btn" href="https://arxiv.org/pdf/2603.13773"><i class="fa-solid fa-file-pdf"></i><span>Paper</span></a>
+    <a class="btn" href="https://arxiv.org/abs/2603.13773"><i class="ai ai-arxiv"></i><span>arXiv</span></a>
+    <a class="btn" href="https://openreview.net/forum?id=bIODmQ1TNd"><i class="fa-regular fa-comments"></i><span>OpenReview</span></a>
+    <a class="btn" href="https://github.com/sbY99/LiveWeb-IE"><i class="fa-brands fa-github"></i><span>Dataset</span></a>
+    <a class="btn" href="static/images/poster.webp"><i class="fa-regular fa-image"></i><span>Poster</span></a>
+  </div>
+</header>
+<main>
+<figure class="teaser">
+  <video autoplay muted loop playsinline controls preload="metadata" poster="static/videos/demo_poster.jpg">
+    <source src="static/videos/demo.mp4" type="video/mp4">
+  </video>
+  <figcaption>Illustrative demo. VGS grounds the query to one screen region, pinpoints the target element with Set-of-Mark, writes an XPath, and reuses it on other pages with the same layout.</figcaption>
+</figure>
+<section id="abstract" class="abstract"><h2>Abstract</h2>
+<p>Web information extraction (WIE) is the task of automatically extracting data from web pages, offering high utility for various applications. The evaluation of WIE systems has traditionally relied on benchmarks built from HTML snapshots captured at a single point in time. However, this offline evaluation paradigm fails to account for the temporally evolving nature of the web; consequently, performance on these static benchmarks often fails to generalize to dynamic real-world scenarios. To bridge this gap, we introduce \dataset, a new benchmark designed for evaluating WIE systems directly against live websites. Based on trusted and permission-granted websites, we curate natural language queries that require information extraction of various data categories, such as text, images, and hyperlinks. We further design these queries to represent four levels of complexity, based on the number and cardinality of attributes to be extracted, enabling a granular assessment of WIE systems. In addition, we propose Visual Grounding Scraper (VGS), a novel multi-stage agentic framework that mimics human cognitive processes by visually narrowing down web page content to extract desired information. Extensive experiments across diverse backbone models demonstrate the effectiveness and robustness of VGS. We believe that this study lays the foundation for developing practical and robust WIE systems.</p></section>
+
+<section id="benchmark"><h2>LiveWeb-IE</h2>
+<p>Web information extraction (WIE) benchmarks are built from HTML snapshots captured at one point in time, while real websites keep changing their layout and DOM. LiveWeb-IE evaluates WIE systems directly on live websites.</p>
+<figure><img src="static/images/construction.webp" alt="LiveWeb-IE construction pipeline" loading="lazy"><figcaption>Dataset construction pipeline: website selection, page grouping by layout, query and value annotation, and human verification.</figcaption></figure>
+<ul>
+<li><b>342 queries</b> over <b>15 permission-granted websites</b> in 8 domains, organized into 46 page groups with distinct layouts, covering 97 unique attributes.</li>
+<li>Queries target text, images and hyperlinks.</li>
+<li>Four task types by the number of attributes and the cardinality of their values: Type I (one attribute, single value), Type II (several attributes, single values), Type III (one attribute, a list of values), Type IV (several attributes, lists of values).</li>
+</ul></section>
+<section id="method"><h2>VGS: Visual Grounding Scraper</h2>
+<p>Instead of reading the full HTML, VGS first looks at the rendered page and then reads only the HTML that matters.</p>
+<figure><img src="static/images/vgs.webp" alt="VGS overview" loading="lazy"><figcaption>VGS narrows the observation space step by step before generating an XPath.</figcaption></figure>
+<ol>
+<li><b>Attribute identification.</b> An LLM maps the query to the target attributes.</li>
+<li><b>Visual grounding.</b> The page is rendered as screenshot regions, and a VLM selects the region that contains each attribute.</li>
+<li><b>Element pinpointing.</b> Candidate elements in that region are marked with numbered boxes (Set-of-Mark), and the VLM selects the target elements.</li>
+<li><b>XPath synthesis.</b> An XPath is written from the local HTML of the selected elements and reused on pages of the same group.</li>
+</ol></section>
+<section id="results"><h2>Results</h2>
+<div class="table-wrap"><table><thead><tr><th>Backbone</th><th>CoT</th><th>Reflexion</th><th>AutoScraper</th><th>VGS (ours)</th></tr></thead><tbody><tr><td>Gemini-2.5-Flash</td><td>20.53</td><td>22.39</td><td>22.02</td><td><b>43.44</b></td></tr><tr><td>GPT-4o-mini</td><td>20.63</td><td>17.47</td><td>21.85</td><td><b>35.85</b></td></tr><tr><td>GPT-4o</td><td>24.60</td><td>24.22</td><td>26.76</td><td><b>48.58</b></td></tr><tr class="sep"><td>Gemma-3-4B</td><td>5.98</td><td>10.35</td><td>11.57</td><td><b>16.30</b></td></tr><tr><td>Gemma-3-27B</td><td>16.65</td><td>17.47</td><td>19.04</td><td><b>30.79</b></td></tr><tr><td>Qwen-2.5-7B</td><td>11.67</td><td>14.53</td><td>16.04</td><td><b>21.74</b></td></tr><tr><td>Qwen-2.5-32B</td><td>17.74</td><td>20.28</td><td>21.61</td><td><b>35.05</b></td></tr><tr><td>Qwen-2.5-72B</td><td>22.06</td><td>18.36</td><td>23.28</td><td><b>38.77</b></td></tr></tbody></table></div><p class="tnote">Overall F1 (%) on LiveWeb-IE (Table 2 of the paper). Top: proprietary backbones, bottom: open-source. Human experts reach 86.60.</p>
+<ul>
+<li>VGS is the best method on every backbone. With GPT-4o, it exceeds AutoScraper by 36.28 F1 on Type III and 34.58 F1 on Type IV.</li>
+<li>Moving from snapshots to live pages hurts HTML-only methods: on SWDE pages whose values are unchanged online, F1 drops by 13.67 to 17.88 points for the baselines and by 8.15 to 8.63 for VGS (GPT-4o and Qwen-2.5-72B).</li>
+<li>The task is far from solved: the best VGS run is still 38.02 F1 below human experts.</li>
+</ul></section>
+<section id="bibtex"><h2>BibTeX</h2>
+<pre><code>@inproceedings{yang2026livewebie,
+  title     = {LiveWeb-IE: A Benchmark for Online Web Information Extraction},
+  author    = {Yang, Seungbin and Kim, Jihwan and Choi, Jaemin and Kim, Dongjin and Yang, Soyoung and Park, ChaeHun and Choo, Jaegul},
+  booktitle = {The Fourteenth International Conference on Learning Representations},
+  year      = {2026},
+  url       = {https://openreview.net/forum?id=bIODmQ1TNd}
+}</code></pre></section>
+</main>
+<footer><a href="https://sby99.github.io/">Seungbin Yang</a></footer>
+</body>
+</html>

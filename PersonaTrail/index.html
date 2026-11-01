@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PersonaTrail: Benchmarking Personalized Web Agents through Browsing Trails</title>
+  <meta name="description" content="PersonaTrail benchmarks personalized web agents that must infer preferences and recall past sessions from raw browsing histories; PACMem turns those histories into factual and preference memory.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PersonaTrail: Benchmarking Personalized Web Agents through Browsing Trails">
+  <meta property="og:description" content="PersonaTrail benchmarks personalized web agents that must infer preferences and recall past sessions from raw browsing histories; PACMem turns those histories into factual and preference memory.">
+  <meta property="og:url" content="https://sby99.github.io/PersonaTrail/">
+  <meta property="og:image" content="https://sby99.github.io/PersonaTrail/static/images/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/page.css">
+</head>
+<body>
+<div class="topbar"><a href="https://sby99.github.io/"><i class="fa-solid fa-arrow-left"></i> Seungbin Yang</a></div>
+<header class="hero">
+  <p class="venue">arXiv 2026</p>
+  <h1>PersonaTrail: Benchmarking Personalized Web Agents through Browsing Trails</h1>
+  <p class="authors"><a class="author me" href="https://sby99.github.io/">Seungbin Yang<sup>1*</sup></a>
+      <span class="author">Chaewoon Ki<sup>2*</sup></span>
+      <span class="author">Dohyun Lee<sup>1</sup></span>
+      <a class="author" href="https://sites.google.com/site/jaegulchoo/">Jaegul Choo<sup>1</sup></a>
+      <span class="author">ChaeHun Park<sup>3</sup></span></p>
+  <p class="affils"><span><sup>1</sup>KAIST AI</span>
+      <span><sup>2</sup>KAIST School of Computing</span>
+      <span><sup>3</sup>Chonnam National University</span></p>
+  <p class="notes"><span>* Equal contribution</span></p>
+  <div class="links">
+    <a class="btn" href="https://arxiv.org/pdf/2607.20482"><i class="fa-solid fa-file-pdf"></i><span>Paper</span></a>
+    <a class="btn" href="https://arxiv.org/abs/2607.20482"><i class="ai ai-arxiv"></i><span>arXiv</span></a>
+  </div>
+</header>
+<main>
+<figure class="teaser">
+  <video autoplay muted loop playsinline controls preload="metadata" poster="static/videos/demo_poster.jpg">
+    <source src="static/videos/demo.mp4" type="video/mp4">
+  </video>
+  <figcaption>Illustrative demo. PACMem turns a raw browsing trail into factual and preference memory, uses it to complete an underspecified request on IMDb, and recalls a page from an earlier session.</figcaption>
+</figure>
+<section id="abstract" class="abstract"><h2>Abstract</h2>
+<p>Recent advances in large language models have enabled web agents to autonomously execute complex tasks. In practice, users frequently provide underspecified instructions, requiring agents to infer the missing context from their raw browsing histories. Existing benchmarks fail to capture this form of personalization, as they either restrict tasks to fully explicit prompts or abstract web interaction history into simplified forms. To bridge this gap, we introduce PersonaTrail, a benchmark for personalized web agents operating in a managed open web environment. By leveraging realistic browsing trajectories as user history, PersonaTrail evaluates an agent&#39;s ability to infer user preferences and recall information from past browsing sessions. We further propose Preference-Aware Contextual Memory (PACMem), a framework that decomposes raw browsing histories into two types of structured memory: factual memories that summarize individual sessions and preference memories that distill recurring behavioral patterns. At inference time, the agent retrieves the most relevant entries from these memories to guide personalized navigation. Extensive experiments show that PACMem consistently outperforms existing memory-based baselines on both tasks.</p></section>
+
+<section id="benchmark"><h2>PersonaTrail</h2>
+<p>Users often leave details out of a request and expect the agent to fill them in from how they have browsed before. In PersonaTrail, the agent gets an underspecified query and the user's browsing history, and must reach a page that satisfies the query.</p>
+<figure><img src="static/images/construction.webp" alt="PersonaTrail construction pipeline" loading="lazy"><figcaption>PersonaTrail construction pipeline.</figcaption></figure>
+<ul>
+<li><b>Raw browsing histories.</b> Each history is a sequence of browser events (timestamp, URL, interacted element, action) executed on real websites.</li>
+<li><b>Two tasks.</b> <i>Preference inference</i>: the missing preference must be inferred from recurring behavior. <i>Episodic grounding</i>: the agent must return to the page from a specific past session.</li>
+<li><b>2,524 queries</b> for 200 users over 317 websites in 23 domains, in single-hop and multi-hop (cross-site) settings.</li>
+<li>Evaluation runs in a managed open-web setting: before each round, recorded trajectories are replayed, and queries that can no longer be completed are excluded.</li>
+</ul></section>
+<section id="method"><h2>PACMem</h2>
+<p>Preference-Aware Contextual Memory keeps what memory-augmented web agents usually discard: what the user prefers and which pages they visited.</p>
+<figure><img src="static/images/pacmem.webp" alt="PACMem overview" loading="lazy"><figcaption>PACMem organizes raw browsing history into factual and preference memory, then retrieves and reranks task-relevant entries at inference time.</figcaption></figure>
+<ol>
+<li><b>Trajectory segmentation.</b> An LLM splits the continuous history into goal-oriented segments.</li>
+<li><b>Factual memory.</b> Segments that share a goal are merged into episodes, stored as structured records.</li>
+<li><b>Preference memory.</b> Recurring behavioral patterns are abstracted from the episodes.</li>
+<li><b>Retrieval.</b> At inference, task-relevant entries from both memories are retrieved, reranked and given to the agent.</li>
+</ol></section>
+<section id="results"><h2>Results</h2>
+<p>Agents run as Browser-Use agents with a 30-step budget. PACMem is compared with no history access (No Retrieval) and two memory-augmented web agents, AWM and ReasoningBank.</p>
+<div class="table-wrap"><table><thead><tr class="group"><th></th><th colspan=2>Single-hop</th><th colspan=2>Multi-hop</th></tr><tr><th>Method</th><th>Preference</th><th>Episodic</th><th>Preference</th><th>Episodic</th></tr></thead><tbody><tr><td>No Retrieval</td><td>0.9</td><td>0.1</td><td>0.0</td><td>0.0</td></tr><tr><td>AWM</td><td>22.8</td><td>10.9</td><td>1.0</td><td>12.5</td></tr><tr><td>ReasoningBank</td><td>36.2</td><td>27.4</td><td>5.8</td><td>8.7</td></tr><tr class="ours"><td>PACMem (ours)</td><td><b>49.7</b></td><td><b>64.5</b></td><td><b>18.4</b></td><td><b>32.7</b></td></tr></tbody></table></div><p class="tnote">Task success rate (%), mean over six backbones (Claude Haiku 4.5, GPT-5.4-mini, Gemini-3-Flash, Gemma-3-27B, Llama-4-Scout, Qwen3.6-27B), computed from Table 3 of the paper.</p>
+<ul>
+<li>PACMem has the highest task success rate on every backbone in all four settings.</li>
+<li>Without access to history, agents almost never succeed (at most 1.96% task success).</li>
+</ul></section>
+<section id="bibtex"><h2>BibTeX</h2>
+<pre><code>@article{yang2026personatrail,
+  title   = {PersonaTrail: Benchmarking Personalized Web Agents through Browsing Trails},
+  author  = {Yang, Seungbin and Ki, Chaewoon and Lee, Dohyun and Choo, Jaegul and Park, ChaeHun},
+  journal = {arXiv preprint arXiv:2607.20482},
+  year    = {2026}
+}</code></pre></section>
+</main>
+<footer><a href="https://sby99.github.io/">Seungbin Yang</a></footer>
+</body>
+</html>
